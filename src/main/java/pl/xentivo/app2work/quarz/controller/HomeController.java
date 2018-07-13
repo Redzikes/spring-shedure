@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import pl.xentivo.app2work.quarz.job.EmailJob;
 import pl.xentivo.app2work.quarz.service.EmailService;
 
+import java.util.Date;
+
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
@@ -28,10 +30,13 @@ public class HomeController {
                 .withIdentity("job1", "group1")
                 .build();
 
+        Date date=new Date();
+        date.setHours(11);
+        date.setMinutes(43);
         // Trigger the job to run now, and then repeat every 40 seconds
         Trigger trigger = newTrigger()
                 .withIdentity("trigger1", "group1")
-                .startNow()
+                .startAt(date)
                 .withSchedule(simpleSchedule()
                         .withIntervalInSeconds(3)
                         .repeatForever())
